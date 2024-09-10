@@ -135,11 +135,11 @@ html, body {
 }
 
 .done .task::before {
-    background-color: #34d399; /* Соответствует цвету заголовка Done */
+    background-color: #34d399; 
 }
 
 .trash .task::before {
-    background-color: #f87171; /* Соответствует цвету заголовка Trash */
+    background-color: #f87171;
 }
 
 .task::before {
@@ -148,19 +148,19 @@ html, body {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 5px; /* Ширина полоски */
-    border-radius: 8px 0 0 8px; /* Скругление углов слева */
+    width: 5px; 
+    border-radius: 8px 0 0 8px; 
 }
 
 /* Стили для текста задачи */
 .task-title {
-    margin-left: 15px; /* Отступ от полоски слева */
-    font-size: 16px; /* Размер шрифта */
-    font-weight: bold; /* Жирный шрифт */
-    color: #333; /* Цвет текста */
-    white-space: nowrap; /* Запрет переноса текста */
-    overflow: hidden; /* Обрезка текста, если он выходит за границы */
-    text-overflow: ellipsis; /* Добавляет троеточие, если текст обрезан */
+    margin-left: 15px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    color: #333;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .clear-button {
