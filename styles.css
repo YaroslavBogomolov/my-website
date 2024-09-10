@@ -1,0 +1,180 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e0e7ff; 
+    
+}
+
+
+.header {
+    text-align: left;
+    background-color: #3b82f6;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    padding-left:20px;
+}
+
+
+.container1 {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    padding-top: 120px; 
+}
+
+.container2 {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px; 
+}
+
+.new-task {
+    background-color: #fff; 
+    padding: 30px;
+    border-radius: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 350px;  
+}
+
+.new-task h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px; 
+}
+
+.new-task-content {
+    display: flex;
+    align-items: center; 
+}
+
+.new-task input {
+    flex: 1; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.new-task button {
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.new-task button:hover {
+    background-color: #2563eb;
+}
+
+
+.columns {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.column {
+    width: 19%;
+    display: flex;
+    flex-direction: column;
+}
+
+.column h2 {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 0 1 auto;
+    width: 70%;
+}
+
+.backlog h2 {
+    background-color: #dad1d1;
+    color: #07020252;
+}
+
+.in-progress h2 {
+    background-color: #599cef96;
+    color: #2564ebef;
+}
+
+.done h2 {
+    background-color: #34d3998a;
+    color: #05885aa6;
+}
+
+.trash h2 {
+    background-color: #eb03035c;
+    color: #f01e1ebf;
+}
+
+
+.task {
+    background-color: #fff; 
+    border-radius: 5px; 
+    padding: 10px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 90%;  
+    display: flex;
+    position: relative;
+}
+
+.backlog .task::before {
+    background-color: #ccc; 
+}
+
+.in-progress .task::before {
+    background-color: #60a5fa; 
+}
+
+.done .task::before {
+    background-color: #34d399; /* Соответствует цвету заголовка Done */
+}
+
+.trash .task::before {
+    background-color: #f87171; /* Соответствует цвету заголовка Trash */
+}
+
+.task::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px; /* Ширина полоски */
+    border-radius: 8px 0 0 8px; /* Скругление углов слева */
+}
+
+/* Стили для текста задачи */
+.task-title {
+    margin-left: 15px; /* Отступ от полоски слева */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    color: #333; /* Цвет текста */
+    white-space: nowrap; /* Запрет переноса текста */
+    overflow: hidden; /* Обрезка текста, если он выходит за границы */
+    text-overflow: ellipsis; /* Добавляет троеточие, если текст обрезан */
+}
+
+.clear-button {
+    margin-top: auto;  
+    width: 110%;
+    padding: 15px;
+    background-color: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+}
+
+.clear-button:hover {
+    background-color: #dc2626;
+}
