@@ -165,17 +165,18 @@ html, body {
     text-overflow: ellipsis;
 }
 
-.clear-button {
-    margin-top: auto;  
-    padding: 15px;
+.clear-trash-button {
+    margin-top: 20px;
+    padding: 10px 20px;
     background-color: #ef4444;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    
-}
-
-.clear-button:hover {
+    width: 100%;
+  }
+  
+  .clear-trash-button:hover {
     background-color: #dc2626;
-}
+  }
+  

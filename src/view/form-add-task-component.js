@@ -5,7 +5,7 @@ function createFormAddTaskComponentTemplate() {
     `<div class="new-task">
       <h3>Новая задача</h3>
       <div class="new-task-content">
-        <input type="text" placeholder="Название задачи...">
+        <input type="text" id="user-name" name="user-name" placeholder="Ваше имя" autocomplete="off">
         <button>+ Добавить</button>
       </div>
     </div>`
