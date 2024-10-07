@@ -1,9 +1,11 @@
-import { tasks } from '../mock/task.js';
-
 export default class TasksModel {
-  boardTasks = tasks;
+  #boardTasks = [];
 
-  getTasks() {
-    return this.boardTasks;
+  constructor(tasks) {
+    this.#boardTasks = tasks; // Массив задач передается через конструктор
+  }
+
+  get tasks() {
+    return this.#boardTasks;
   }
 }

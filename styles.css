@@ -165,7 +165,7 @@ html, body {
     text-overflow: ellipsis;
 }
 
-.clear-trash-button {
+.clear-button {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #ef4444;
@@ -176,7 +176,7 @@ html, body {
     width: 100%;
   }
   
-  .clear-trash-button:hover {
+  .clear-button:hover {
     background-color: #dc2626;
   }
   

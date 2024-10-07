@@ -1,24 +1,13 @@
-import { createElement } from '../framework/render.js';
+  import { AbstractComponent } from '../framework/view/abstract-component.js';
 
-function createClearTrashButtonTemplate() {
-  return (
-    `<button class="clear-trash-button">Очистить корзину</button>`
-  );
-}
-
-export default class ClearTrashButtonComponent {
-  getTemplate() {
-    return createClearTrashButtonTemplate();
+  function createClearTrashButtonTemplate() {
+    return (
+      `<button class="clear-trash-button">Очистить корзину</button>`
+    );
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  export default class ClearTrashButtonComponent extends AbstractComponent {
+    get template() {
+      return createClearTrashButtonTemplate();
     }
-    return this.element;
   }
-
-  removeElement() {
-    this.element = null;
-  }
-}
