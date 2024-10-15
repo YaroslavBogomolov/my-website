@@ -1,80 +1,128 @@
 import TaskBoardComponent from '../view/tasks-board-component.js';
-import TasksListComponent from '../view/tasks-list-component.js';
-import TaskComponent from '../view/task-component.js';
 import NoTasksComponent from '../view/no-tasks-component.js';
+import TaskListComponent from '../view/tasks-list-component.js';
+import ClearTrashButtonComponent from '../view/clear-trash-button-component.js';
 import { render } from '../framework/render.js';
-import { Status, StatusLabel } from '../const.js';
+import TaskPresenter from './task-presenter.js'; 
+import { Status } from '../const.js';
 
 export default class TasksBoardPresenter {
   #boardContainer = null;
   #tasksModel = null;
   #tasksBoardComponent = new TaskBoardComponent();
-  #boardTasks = [];
+  #taskLists = {};
+  #clearTrashButtonComponent = null;
 
   constructor({ boardContainer, tasksModel }) {
     this.#boardContainer = boardContainer;
     this.#tasksModel = tasksModel;
+    this.#tasksModel.addObserver(this.#handleModelChange.bind(this));
   }
 
   init() {
-    // Преобразуем задачи, чтобы каждая задача знала свой статус
-    this.#boardTasks = this.#tasksModel.tasks.map((statusGroup) => {
-      return statusGroup.task.map((task) => ({
-        ...task,
-        status: statusGroup.status
-      }));
-    }).flat();
+    render(this.#tasksBoardComponent, this.#boardContainer);
+    this.#initializeBoard();
+    this.#initClearTrashButton();
+  }
+
+  #initClearTrashButton() {
+    this.#clearTrashButtonComponent = new ClearTrashButtonComponent({
+      onClick: this.clearTrash.bind(this)
+    });
+    const trashContainer = this.#tasksBoardComponent.element.querySelector('.column.trash');
+    if (trashContainer) {
+      render(this.#clearTrashButtonComponent, trashContainer);
+    } else {
+      console.error('Контейнер для кнопки очистки не найден');
+    }
+  }
+
+  clearTrash() {
+    const tasksToRemove = this.#tasksModel.tasks.filter(task => task.status === 'trash');
+    tasksToRemove.forEach(task => {
+      this.#tasksModel.removeTask(task.id);
+    });
+    this.#handleModelChange();
+  }
+
+  #initializeBoard() {
+    Object.values(Status).forEach((status) => {
+      const columnElement = this.#tasksBoardComponent.element.querySelector(`.column.${status}`);
+
+      if (!columnElement) {
+        throw new Error(`Container for status ${status} doesn't exist`);
+      }
+
+      const taskList = new TaskListComponent();
+      this.#taskLists[status] = taskList;
+
+      render(taskList, columnElement);
+      this.#addDropListener(columnElement); 
+    });
 
     this.#renderBoard();
   }
 
-  #renderTask(task, container) {
-    const taskComponent = new TaskComponent(task); // Убираем деструктуризацию, она здесь не нужна
-    render(taskComponent, container);
-  }
+  #addDropListener(columnElement) {
+    columnElement.addEventListener('dragover', (event) => {
+      event.preventDefault(); 
+    });
 
-  #renderBoard() {
-    // Рендерим основную доску с колонками
-    render(this.#tasksBoardComponent, this.#boardContainer);
+    columnElement.addEventListener('drop', (event) => {
+      event.preventDefault();
+      const taskId = event.dataTransfer.getData('text/plain');
+      const task = this.#tasksModel.tasks.find(task => task.id === taskId);
 
-    // Проходим по каждому статусу и создаем колонку задач один раз
-    Object.values(Status).forEach((status) => {
-      // Ищем задачи для этого статуса
-      const tasksForStatus = this.getTasksByStatus(this.#boardTasks, status);
-
-      // Находим колонку для данного статуса
-      const columnElement = this.#tasksBoardComponent.element.querySelector(`.column.${status}`);
-
-      // Если колонка найдена и задачи есть, рендерим их
-      if (tasksForStatus.length > 0) {
-        tasksForStatus.forEach((task) => {
-          this.#renderTask(task, columnElement);
-        });
-      } else {
-        // Если задач нет, рендерим компонент "NoTasksComponent" в колонку
-        const noTasksComponent = new NoTasksComponent();
-        render(noTasksComponent, columnElement);
-      }
-
-      // Если это корзина, добавляем кнопку очистки
-      if (status === Status.BASKET) {
-        this.#addClearButton(columnElement);
+      if (task) {
+        const newStatus = columnElement.classList[1]; 
+        task.status = newStatus; 
+        this.#handleModelChange(); 
       }
     });
   }
 
-  #addClearButton(columnElement) {
-    // Проверяем, существует ли кнопка уже
-    if (!columnElement.querySelector('.clear-button')) {
-      const clearButton = document.createElement('button');
-      clearButton.className = 'clear-button';
-      clearButton.textContent = 'Очистить корзину';
-      columnElement.appendChild(clearButton); // Добавляем кнопку под последними задачами в корзине
-    }
+  #renderBoard() {
+    Object.values(Status).forEach((status) => {
+      const tasksForStatus = this.getTasksByStatus(status);
+      const taskList = this.#taskLists[status];
+
+      taskList.clear();
+
+      if (tasksForStatus.length > 0) {
+        tasksForStatus.forEach((task) => {
+          this.#renderTask(task, taskList);
+        });
+      } else {
+        const noTasksComponent = new NoTasksComponent();
+        render(noTasksComponent, taskList.element);
+      }
+    });
   }
 
-  getTasksByStatus(tasks, status) {
-    // Фильтруем задачи по статусу
-    return tasks.filter(task => task.status === status);
+  getTasksByStatus(status) {
+    return this.#tasksModel.tasks.filter(task => task.status === status);
+  }
+
+  createTask() {
+    const taskTitle = document.querySelector('#add-task').value.trim();
+    if (!taskTitle) {
+      return;
+    }
+
+    const newTask = this.#tasksModel.addTask(taskTitle);
+    document.querySelector('#add-task').value = '';
+    this.#handleModelChange();
+  }
+
+  #handleModelChange() {
+    this.#renderBoard();
+  }
+
+  #renderTask(task, taskList) {
+    const taskPresenter = new TaskPresenter({
+      taskContainer: taskList.element,
+      task
+    });
+    taskPresenter.init();
   }
 }

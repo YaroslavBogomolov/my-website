@@ -1,31 +1,47 @@
 export const tasks = [
   {
+    id: '1',
+    title: 'Выучить JS',
     status: 'backlog',
-    task: [
-      { id: 1, title: 'Выучить JavaScript' },
-      { id: 2, title: 'Прочитать про React' },
-      { id: 3, title: 'Закончить проект' }
-    ]
   },
   {
+    id: '2',
+    title: 'Выучить React',
+    status: 'backlog',
+  },
+  {
+    id: '3',
+    title: 'Закончить проект',
+    status: 'backlog',
+  },
+  {
+    id: '4',
+    title: 'Работа над проектом',
     status: 'in-progress',
-    task: [
-      { id: 4, title: 'Работа над проектом' },
-      { id: 5, title: 'Выпить чая' }
-    ]
   },
   {
+    id: '5',
+    title: 'Выпить чая',
+    status: 'in-progress',
+  },
+  {
+    id: '6',
+    title: 'Выучить HTML',
     status: 'done',
-    task: [
-      { id: 6, title: 'Выучить HTML' },
-      { id: 7, title: 'Выучить CSS' }
-    ]
   },
   {
+    id: '7',
+    title: 'Выучить CSS',
+    status: 'done',
+  },
+  {
+    id: '8',
+    title: 'Прочитать книгу',
     status: 'trash',
-    task: [
-      { id: 8, title: 'Удалить старые задачи' },
-      { id: 9, title: 'Очистить корзину' }
-    ]
-  }
+  },
+  {
+    id: '9',
+    title: 'Очистить корзину',
+    status: 'trash',
+  },
 ];
